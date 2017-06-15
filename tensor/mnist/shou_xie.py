@@ -31,3 +31,9 @@ for i in range(1000):
   batch_xs, batch_ys = mnist.train.next_batch(100)
   sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 # 三、评估模型
+# 首先让我们找出那些预测正确的标签
+correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+# 为了确定正确预测项的比例，我们可以把布尔值转换成浮点数，然后取平均值。
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+# 最后，我们计算所学习到的模型在测试数据集上面的正确率
+print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
