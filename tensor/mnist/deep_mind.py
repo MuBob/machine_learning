@@ -19,7 +19,7 @@ cross_entropy = -tf.reduce_sum(y_*tf.log(y))
 # 用最速下降法让交叉熵下降，步长为0.01.
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 # 每一步迭代，我们都会加载50个训练样本，然后执行一次train_step，并通过feed_dict将x 和 y_张量占位符用训练训练数据替代。
-for i in range(1000):
+for i in range(100):
   batch = mnist.train.next_batch(50)
   train_step.run(feed_dict={x: batch[0], y_: batch[1]})
 
@@ -75,9 +75,9 @@ train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 sess.run(tf.initialize_all_variables())
-for i in range(20000):
+for i in range(200):
   batch = mnist.train.next_batch(50)
-  if i%100 == 0:
+  if i%10 == 0:
     train_accuracy = accuracy.eval(feed_dict={
         x:batch[0], y_: batch[1], keep_prob: 1.0})
     print("step %d, training accuracy %g"%(i, train_accuracy))
