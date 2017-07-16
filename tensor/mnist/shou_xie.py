@@ -22,6 +22,8 @@ cross_entropy = -tf.reduce_sum(y_*tf.log(y))
 # TensorFlow用梯度下降算法（gradient descent algorithm）以0.01的学习速率最小化交叉熵
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 init = tf.initialize_all_variables()
+saver_path = 'model_shou_xie.ckpt'
+saver = tf.train.Saver()
 sess = tf.Session()
 sess.run(init)
 # 让模型循环训练100次
@@ -35,3 +37,5 @@ correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 # 最后，我们计算所学习到的模型在测试数据集上面的正确率
 print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
+
+saved_path = saver.save(sess,saver_path) # 这个保存了三个东西， .meta是图的结构， 还有两个是模型中变量的值
